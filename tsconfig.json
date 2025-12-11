@@ -1,0 +1,69 @@
+{
+  // TypeScript configuration file
+  // This tells TypeScript (and tools like shadcn) how to handle your code
+  
+  "compilerOptions": {
+    // --- MODULE RESOLUTION ---
+    // "baseUrl" sets the root directory for resolving imports
+    // "." means the project root folder
+    "baseUrl": ".",
+    
+    // "paths" creates shortcuts for imports
+    // Instead of: import Button from '../../../components/ui/button'
+    // You can write: import Button from '@/components/ui/button'
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    
+    // --- JAVASCRIPT SUPPORT ---
+    // Allow importing .js and .jsx files (since you're using React)
+    "allowJs": true,
+    
+    // Don't check JavaScript files for errors (only check TypeScript files)
+    "checkJs": false,
+    
+    // --- REACT SUPPORT ---
+    // Tell TypeScript how to handle JSX (React's HTML-like syntax)
+    "jsx": "react-jsx",
+    
+    // --- MODULE SYSTEM ---
+    // Use modern ES6 modules (import/export)
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    
+    // --- COMPATIBILITY ---
+    // Target modern browsers (ES2020 features)
+    "target": "ES2020",
+    
+    // Include type definitions for DOM APIs (browser APIs)
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    
+    // --- STRICTNESS (Relaxed for JavaScript projects) ---
+    // Skip type checking for library files (speeds up compilation)
+    "skipLibCheck": true,
+    
+    // Allow different casing in file names (Windows/Mac compatibility)
+    "forceConsistentCasingInFileNames": true,
+    
+    // --- OUTPUT ---
+    // Don't generate output files (Vite handles bundling)
+    "noEmit": true,
+    
+    // Allow importing JSON files
+    "resolveJsonModule": true,
+    
+    // Ensure each file can be safely transpiled
+    "isolatedModules": true
+  },
+  
+  // Include all source files
+  "include": [
+    "src"
+  ],
+  
+  // Exclude these directories from type checking
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
