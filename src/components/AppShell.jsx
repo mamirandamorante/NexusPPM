@@ -1,44 +1,42 @@
 import React, { useState } from 'react';
-import { 
-  LayoutDashboard, 
-  FolderKanban, 
-  Target, 
-  Rocket, 
-  AlertTriangle, 
-  CheckCircle2, 
-  Users, 
-  BarChart3, 
+import {
+  LayoutDashboard,
+  FolderKanban,
+  Target,
+  Rocket,
+  AlertTriangle,
+  CheckCircle2,
+  Users,
+  BarChart3,
   Settings,
   Menu,
-  X,
   Search,
   Bell,
-  ChevronLeft
+  Sparkles
 } from 'lucide-react';
+import AIChat from './AIChat';
 
 /**
- * AppShell Component
+ * AppShell Component - Portavia Design
  * 
- * This is the main layout wrapper for the entire application.
- * It provides:
- * - Top header with logo, search, and user menu
- * - Left sidebar with navigation (collapsible)
- * - Main content area
- * - Breadcrumbs
+ * Main layout wrapper for the entire application.
  * 
- * Usage:
- * <AppShell breadcrumbs={['Dashboard']}>
- *   <YourPageContent />
- * </AppShell>
+ * Features:
+ * - Light grey header with logo, search, notifications, AI button, user menu
+ * - Light grey left sidebar with navigation (collapsible)
+ * - Light grey right sidebar with AI Chat (collapsible)
+ * - White main content area
+ * - Fine black borders throughout
+ * - Professional black/white/grey color scheme
  */
 
 const AppShell = ({ children, breadcrumbs = [] }) => {
-  // State for sidebar collapse
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  
+  const [leftSidebarOpen, setLeftSidebarOpen] = useState(true);
+  const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
+
   // Navigation items with icons and badges
   const navItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/', badge: null },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/', badge: null, active: true },
     { icon: FolderKanban, label: 'Portfolios', path: '/portfolios', badge: null },
     { icon: Target, label: 'Programs', path: '/programs', badge: null },
     { icon: Rocket, label: 'Projects', path: '/projects', badge: 3 },
@@ -49,84 +47,96 @@ const AppShell = ({ children, breadcrumbs = [] }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 h-16 bg-white border-b border-slate-200 z-30">
+    <div className="min-h-screen bg-white">
+      {/* Header - Light Grey Background */}
+      <header className="fixed top-0 left-0 right-0 h-14 bg-portavia-grey border-b border-portavia-border z-30">
         <div className="h-full px-4 flex items-center justify-between">
-          {/* Left: Logo + Menu Toggle */}
+          {/* Left: Menu Toggle + Logo */}
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
+              onClick={() => setLeftSidebarOpen(!leftSidebarOpen)}
+              className="p-2 hover:bg-gray-200 rounded transition-colors"
+              aria-label="Toggle sidebar"
             >
-              <Menu className="w-5 h-5 text-slate-600" />
+              <Menu className="w-5 h-5 text-portavia-dark" />
             </button>
-            
+
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">N</span>
-              </div>
-              <span className="text-xl font-bold text-slate-900">NexusPPM</span>
+              <span className="text-xl font-semibold text-portavia-dark tracking-tight">
+                Portavia
+              </span>
             </div>
           </div>
 
           {/* Center: Search */}
-          <div className="flex-1 max-w-2xl mx-8">
+          <div className="flex-1 max-w-xl mx-8">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
                 placeholder="Search projects, risks, people..."
-                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full pl-9 pr-4 py-1.5 bg-white border border-portavia-border rounded text-sm focus:outline-none focus:border-gray-400 transition-colors"
               />
             </div>
           </div>
 
-          {/* Right: Notifications + User */}
+          {/* Right: Notifications + AI + User */}
           <div className="flex items-center gap-2">
             {/* Notifications */}
-            <button className="relative p-2 hover:bg-slate-100 rounded-lg transition-colors">
-              <Bell className="w-5 h-5 text-slate-600" />
-              <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            <button className="relative p-2 hover:bg-gray-200 rounded transition-colors">
+              <Bell className="w-5 h-5 text-portavia-dark" />
+              <span className="absolute top-1 right-1 w-2 h-2 bg-status-red rounded-full"></span>
+            </button>
+
+            {/* AI Assistant Toggle */}
+            <button
+              onClick={() => setRightSidebarOpen(!rightSidebarOpen)}
+              className={`p-2 hover:bg-gray-200 rounded transition-colors ${
+                rightSidebarOpen ? 'bg-gray-200' : ''
+              }`}
+              title="AI Assistant"
+              aria-label="Toggle AI Assistant"
+            >
+              <Sparkles className="w-5 h-5 text-portavia-dark" />
             </button>
 
             {/* User Menu */}
-            <button className="flex items-center gap-2 p-2 hover:bg-slate-100 rounded-lg transition-colors">
-              <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
-                <span className="text-indigo-600 font-semibold text-sm">MG</span>
+            <button className="flex items-center gap-2 p-2 hover:bg-gray-200 rounded transition-colors">
+              <div className="w-7 h-7 bg-portavia-dark rounded-full flex items-center justify-center">
+                <span className="text-white font-medium text-xs">MG</span>
               </div>
-              <span className="text-sm font-medium text-slate-700">Miguel</span>
+              <span className="text-sm font-medium text-portavia-dark">Miguel</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* Sidebar */}
+      {/* Left Sidebar - Light Grey Background */}
       <aside
-        className={`fixed top-16 left-0 bottom-0 bg-white border-r border-slate-200 transition-all duration-300 z-20 ${
-          sidebarOpen ? 'w-64' : 'w-20'
+        className={`fixed top-14 left-0 bottom-0 bg-portavia-grey border-r border-portavia-border transition-all duration-300 z-20 ${
+          leftSidebarOpen ? 'w-56' : 'w-14'
         }`}
       >
-        <nav className="p-4 space-y-1">
+        <nav className="p-2 space-y-1">
           {navItems.map((item, index) => {
             const Icon = item.icon;
-            const isActive = index === 0; // Mock active state for Dashboard
-            
+            const isActive = item.active;
+
             return (
               <button
                 key={item.path}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded transition-all ${
                   isActive
-                    ? 'bg-indigo-50 text-indigo-600 font-medium'
-                    : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                    ? 'bg-white text-portavia-dark font-medium border border-portavia-border'
+                    : 'text-gray-600 hover:bg-white hover:border hover:border-portavia-border'
                 }`}
               >
-                <Icon className="w-5 h-5 flex-shrink-0" />
-                {sidebarOpen && (
+                <Icon className="w-4 h-4 flex-shrink-0" />
+                {leftSidebarOpen && (
                   <>
                     <span className="flex-1 text-left text-sm">{item.label}</span>
                     {item.badge && (
-                      <span className="px-2 py-0.5 bg-red-100 text-red-600 text-xs font-semibold rounded-full">
+                      <span className="px-1.5 py-0.5 bg-status-red text-white text-xs font-semibold rounded">
                         {item.badge}
                       </span>
                     )}
@@ -138,44 +148,45 @@ const AppShell = ({ children, breadcrumbs = [] }) => {
         </nav>
 
         {/* Settings at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-200">
-          <button className="w-full flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-50 hover:text-slate-900 rounded-lg transition-all">
-            <Settings className="w-5 h-5 flex-shrink-0" />
-            {sidebarOpen && <span className="text-sm">Settings</span>}
+        <div className="absolute bottom-0 left-0 right-0 p-2 border-t border-portavia-border">
+          <button className="w-full flex items-center gap-3 px-3 py-2 text-gray-600 hover:bg-white hover:border hover:border-portavia-border rounded transition-all">
+            <Settings className="w-4 h-4 flex-shrink-0" />
+            {leftSidebarOpen && <span className="text-sm">Settings</span>}
           </button>
-          
-          {sidebarOpen && (
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="w-full mt-2 flex items-center justify-center gap-2 px-3 py-2 text-slate-500 hover:text-slate-700 text-xs transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Collapse
-            </button>
-          )}
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main
-        className={`pt-16 transition-all duration-300 ${
-          sidebarOpen ? 'pl-64' : 'pl-20'
+      {/* Right Sidebar - AI Chat Panel */}
+      <aside
+        className={`fixed top-14 right-0 bottom-0 bg-portavia-grey border-l border-portavia-border transition-all duration-300 z-20 ${
+          rightSidebarOpen ? 'w-96' : 'w-0'
         }`}
+        style={{ overflow: rightSidebarOpen ? 'visible' : 'hidden' }}
+      >
+        <AIChat
+          isOpen={rightSidebarOpen}
+          onClose={() => setRightSidebarOpen(false)}
+        />
+      </aside>
+
+      {/* Main Content - White Background */}
+      <main
+        className={`pt-14 transition-all duration-300 ${
+          leftSidebarOpen ? 'pl-56' : 'pl-14'
+        } ${rightSidebarOpen ? 'pr-96' : 'pr-0'}`}
       >
         {/* Breadcrumbs */}
         {breadcrumbs.length > 0 && (
-          <div className="bg-white border-b border-slate-200 px-6 py-3">
+          <div className="bg-white border-b border-portavia-border px-6 py-3">
             <div className="flex items-center gap-2 text-sm">
               {breadcrumbs.map((crumb, index) => (
                 <React.Fragment key={index}>
-                  {index > 0 && (
-                    <span className="text-slate-400">/</span>
-                  )}
+                  {index > 0 && <span className="text-gray-400">/</span>}
                   <span
                     className={
                       index === breadcrumbs.length - 1
-                        ? 'text-slate-900 font-medium'
-                        : 'text-slate-500 hover:text-slate-700 cursor-pointer'
+                        ? 'text-portavia-dark font-medium'
+                        : 'text-gray-500 hover:text-portavia-dark cursor-pointer'
                     }
                   >
                     {crumb}
@@ -187,9 +198,7 @@ const AppShell = ({ children, breadcrumbs = [] }) => {
         )}
 
         {/* Page Content */}
-        <div className="p-6">
-          {children}
-        </div>
+        <div className="p-6 bg-white">{children}</div>
       </main>
     </div>
   );

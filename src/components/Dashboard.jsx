@@ -1,30 +1,33 @@
 import React from 'react';
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  AlertCircle,
+import {
+  TrendingUp,
+  TrendingDown,
+  AlertTriangle,
   CheckCircle2,
   Clock,
-  DollarSign,
-  ArrowRight
+  DollarSign
 } from 'lucide-react';
 import AppShell from './AppShell';
 
 /**
- * Dashboard Component
+ * Dashboard Component - Portavia Design
  * 
- * Main landing page showing executive overview:
+ * Executive dashboard showing portfolio overview with:
  * - KPI cards with key metrics
- * - Portfolio health visualization
- * - Financial overview
- * - Critical alerts (issues and risks)
- * - Upcoming milestones
+ * - Portfolio health visualization (green/orange/red bars)
+ * - Financial overview with budget tracking
+ * - Critical issues list (red flags)
+ * - Upcoming milestones with status indicators
  * 
- * This is the first page users see after login.
+ * Design:
+ * - Clean black/white/grey color scheme
+ * - Status colors (red/orange/green) for flags only
+ * - Professional, sophisticated layout
+ * - Inspired by OnePlan's clean design
  */
 
 const Dashboard = () => {
-  // Mock KPI data
+  // KPI data
   const kpis = [
     {
       title: 'Total Projects',
@@ -32,8 +35,7 @@ const Dashboard = () => {
       change: '+3',
       trend: 'up',
       subtitle: 'from last month',
-      icon: CheckCircle2,
-      color: 'indigo'
+      icon: CheckCircle2
     },
     {
       title: 'Active Projects',
@@ -41,8 +43,7 @@ const Dashboard = () => {
       change: '+2',
       trend: 'up',
       subtitle: '75% of total',
-      icon: TrendingUp,
-      color: 'green'
+      icon: TrendingUp
     },
     {
       title: 'At Risk',
@@ -50,8 +51,7 @@ const Dashboard = () => {
       change: '+2',
       trend: 'down',
       subtitle: 'requires attention',
-      icon: AlertCircle,
-      color: 'amber'
+      icon: AlertTriangle
     },
     {
       title: 'Overdue Items',
@@ -59,19 +59,18 @@ const Dashboard = () => {
       change: '-3',
       trend: 'up',
       subtitle: 'milestones + tasks',
-      icon: Clock,
-      color: 'red'
+      icon: Clock
     }
   ];
 
-  // Mock portfolio health data
+  // Portfolio health data
   const portfolioHealth = [
-    { status: 'On Track', count: 12, percentage: 60, color: 'bg-emerald-500' },
-    { status: 'At Risk', count: 6, percentage: 30, color: 'bg-amber-500' },
-    { status: 'Critical', count: 2, percentage: 10, color: 'bg-red-500' }
+    { status: 'On Track', count: 12, percentage: 60, color: 'bg-status-green' },
+    { status: 'At Risk', count: 6, percentage: 30, color: 'bg-status-orange' },
+    { status: 'Critical', count: 2, percentage: 10, color: 'bg-status-red' }
   ];
 
-  // Mock critical issues
+  // Critical issues
   const criticalIssues = [
     { title: 'Push notifications service down', project: 'Mobile App', severity: 'Critical' },
     { title: 'Payroll configuration error', project: 'HR System', severity: 'Critical' },
@@ -80,15 +79,7 @@ const Dashboard = () => {
     { title: 'Login timeout issues', project: 'Customer Portal', severity: 'High' }
   ];
 
-  // Mock high risks
-  const highRisks = [
-    { title: 'Economic downturn may impact funding', level: 'Portfolio', score: 20 },
-    { title: 'Legacy system integration complexity', level: 'Program', score: 20 },
-    { title: 'Shared UX resources over-allocated', level: 'Program', score: 16 },
-    { title: 'Data quality issues for ML models', level: 'Program', score: 16 }
-  ];
-
-  // Mock upcoming milestones
+  // Upcoming milestones
   const upcomingMilestones = [
     { name: 'Design System Ready', project: 'Website Redesign', date: 'Dec 20', status: 'at-risk' },
     { name: 'Development 50% Complete', project: 'Mobile App', date: 'Jan 5', status: 'on-track' },
@@ -97,62 +88,63 @@ const Dashboard = () => {
   ];
 
   return (
-    <AppShell breadcrumbs={['Dashboard']}>
+    <AppShell>
       {/* Page Header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold text-slate-900">Executive Dashboard</h1>
-        <p className="text-slate-600 mt-1">Overview of portfolio performance and key metrics</p>
+        <h1 className="text-2xl font-semibold text-portavia-dark">Executive Dashboard</h1>
+        <p className="text-gray-600 text-sm mt-1">
+          Overview of portfolio performance and key metrics
+        </p>
       </div>
 
       {/* Filters */}
       <div className="flex items-center gap-3 mb-6">
-        <select className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <select className="px-3 py-1.5 bg-white border border-portavia-border rounded text-sm focus:outline-none focus:border-gray-400">
           <option>Executive View</option>
           <option>My Projects</option>
           <option>Portfolio View</option>
           <option>Program View</option>
         </select>
-        
-        <select className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+
+        <select className="px-3 py-1.5 bg-white border border-portavia-border rounded text-sm focus:outline-none focus:border-gray-400">
           <option>Last 30 Days</option>
           <option>Last Quarter</option>
           <option>This Year</option>
           <option>Custom Range</option>
         </select>
-
-        <button className="ml-auto px-4 py-2 text-indigo-600 hover:bg-indigo-50 rounded-lg text-sm font-medium transition-colors">
-          Refresh Data
-        </button>
       </div>
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         {kpis.map((kpi, index) => {
           const Icon = kpi.icon;
-          const colorClasses = {
-            indigo: 'bg-indigo-50 text-indigo-600',
-            green: 'bg-emerald-50 text-emerald-600',
-            amber: 'bg-amber-50 text-amber-600',
-            red: 'bg-red-50 text-red-600'
-          };
 
           return (
-            <div key={index} className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-lg transition-shadow">
-              <div className="flex items-start justify-between mb-4">
-                <div className={`w-12 h-12 rounded-lg ${colorClasses[kpi.color]} flex items-center justify-center`}>
-                  <Icon className="w-6 h-6" />
+            <div
+              key={index}
+              className="bg-white border border-portavia-border rounded p-4 hover:shadow-sm transition-shadow"
+            >
+              <div className="flex items-start justify-between mb-3">
+                <div className="w-10 h-10 bg-portavia-grey rounded flex items-center justify-center">
+                  <Icon className="w-5 h-5 text-portavia-dark" />
                 </div>
-                <div className={`flex items-center gap-1 text-sm font-semibold ${
-                  kpi.trend === 'up' ? 'text-emerald-600' : 'text-red-600'
-                }`}>
-                  {kpi.trend === 'up' ? <TrendingUp className="w-4 h-4" /> : <TrendingDown className="w-4 h-4" />}
+                <div
+                  className={`flex items-center gap-1 text-xs font-semibold ${
+                    kpi.trend === 'up' ? 'text-status-green' : 'text-status-red'
+                  }`}
+                >
+                  {kpi.trend === 'up' ? (
+                    <TrendingUp className="w-3 h-3" />
+                  ) : (
+                    <TrendingDown className="w-3 h-3" />
+                  )}
                   {kpi.change}
                 </div>
               </div>
-              
-              <div className="text-3xl font-bold text-slate-900 mb-1">{kpi.value}</div>
-              <div className="text-sm text-slate-500">{kpi.title}</div>
-              <div className="text-xs text-slate-400 mt-1">{kpi.subtitle}</div>
+
+              <div className="text-2xl font-bold text-portavia-dark mb-1">{kpi.value}</div>
+              <div className="text-sm text-gray-600">{kpi.title}</div>
+              <div className="text-xs text-gray-400 mt-1">{kpi.subtitle}</div>
             </div>
           );
         })}
@@ -161,11 +153,13 @@ const Dashboard = () => {
       {/* Two Column Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Portfolio Health */}
-        <div className="bg-white rounded-xl border border-slate-200 p-6">
-          <h2 className="text-lg font-semibold text-slate-900 mb-6">Portfolio Health</h2>
-          
+        <div className="bg-white border border-portavia-border rounded p-5">
+          <h2 className="text-base font-semibold text-portavia-dark mb-5">
+            Portfolio Health
+          </h2>
+
           {/* Visual Bar */}
-          <div className="flex h-8 rounded-lg overflow-hidden mb-6">
+          <div className="flex h-8 rounded overflow-hidden mb-5">
             {portfolioHealth.map((item, index) => (
               <div
                 key={index}
@@ -181,13 +175,15 @@ const Dashboard = () => {
           <div className="space-y-3">
             {portfolioHealth.map((item, index) => (
               <div key={index} className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                   <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
-                  <span className="text-sm text-slate-700">{item.status}</span>
+                  <span className="text-sm text-gray-700">{item.status}</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-semibold text-slate-900">{item.count} projects</span>
-                  <span className="text-xs text-slate-500">{item.percentage}%</span>
+                  <span className="text-sm font-semibold text-portavia-dark">
+                    {item.count} projects
+                  </span>
+                  <span className="text-xs text-gray-500">{item.percentage}%</span>
                 </div>
               </div>
             ))}
@@ -195,67 +191,74 @@ const Dashboard = () => {
         </div>
 
         {/* Financial Overview */}
-        <div className="bg-white rounded-xl border border-slate-200 p-6">
-          <h2 className="text-lg font-semibold text-slate-900 mb-6">Financial Overview</h2>
-          
-          <div className="space-y-4 mb-6">
+        <div className="bg-white border border-portavia-border rounded p-5">
+          <h2 className="text-base font-semibold text-portavia-dark mb-5">
+            Financial Overview
+          </h2>
+
+          <div className="space-y-3 mb-5">
             <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-600">Total Budget</span>
-              <span className="text-xl font-bold text-slate-900">$13,000,000</span>
+              <span className="text-sm text-gray-600">Total Budget</span>
+              <span className="text-lg font-bold text-portavia-dark">$13,000,000</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-600">Spent</span>
-              <span className="text-xl font-bold text-indigo-600">$6,900,000</span>
+              <span className="text-sm text-gray-600">Spent</span>
+              <span className="text-lg font-bold text-portavia-dark">$6,900,000</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm text-slate-600">Remaining</span>
-              <span className="text-xl font-bold text-emerald-600">$6,100,000</span>
+              <span className="text-sm text-gray-600">Remaining</span>
+              <span className="text-lg font-bold text-status-green">$6,100,000</span>
             </div>
           </div>
 
           {/* Progress Bar */}
           <div className="mb-4">
             <div className="flex items-center justify-between text-sm mb-2">
-              <span className="text-slate-600">Budget Utilization</span>
-              <span className="font-semibold text-slate-900">53%</span>
+              <span className="text-gray-600">Budget Utilization</span>
+              <span className="font-semibold text-portavia-dark">53%</span>
             </div>
-            <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full" style={{ width: '53%' }}></div>
+            <div className="h-2 bg-portavia-grey rounded overflow-hidden">
+              <div
+                className="h-full bg-portavia-dark"
+                style={{ width: '53%' }}
+              ></div>
             </div>
           </div>
-
-          <button className="w-full mt-4 px-4 py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
-            View Detailed Report
-            <ArrowRight className="w-4 h-4" />
-          </button>
         </div>
       </div>
 
       {/* Alerts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Critical Issues */}
-        <div className="bg-white rounded-xl border border-slate-200 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-              <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+        <div className="bg-white border border-portavia-border rounded p-5">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-base font-semibold text-portavia-dark flex items-center gap-2">
+              <span className="w-2 h-2 bg-status-red rounded-full"></span>
               Critical Issues
-              <span className="text-sm font-normal text-slate-500">({criticalIssues.length})</span>
+              <span className="text-sm font-normal text-gray-500">
+                ({criticalIssues.length})
+              </span>
             </h2>
-            <button className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
+            <button className="text-sm text-portavia-dark hover:underline">
               View All
             </button>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             {criticalIssues.map((issue, index) => (
-              <div key={index} className="p-3 bg-red-50 border border-red-100 rounded-lg hover:bg-red-100 transition-colors cursor-pointer">
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0 mt-0.5" />
+              <div
+                key={index}
+                className="p-3 bg-red-50 border border-red-200 rounded hover:bg-red-100 transition-colors cursor-pointer"
+              >
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="w-4 h-4 text-status-red flex-shrink-0 mt-0.5" />
                   <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-slate-900 truncate">{issue.title}</div>
-                    <div className="text-xs text-slate-600 mt-1">{issue.project}</div>
+                    <div className="text-sm font-medium text-portavia-dark truncate">
+                      {issue.title}
+                    </div>
+                    <div className="text-xs text-gray-600 mt-0.5">{issue.project}</div>
                   </div>
-                  <span className="text-xs font-semibold text-red-600 px-2 py-1 bg-red-100 rounded">
+                  <span className="text-xs font-semibold text-status-red px-2 py-0.5 bg-red-100 rounded whitespace-nowrap">
                     {issue.severity}
                   </span>
                 </div>
@@ -264,72 +267,57 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* High Risks */}
-        <div className="bg-white rounded-xl border border-slate-200 p-6">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-slate-900 flex items-center gap-2">
-              <span className="w-2 h-2 bg-amber-500 rounded-full"></span>
-              High Risks
-              <span className="text-sm font-normal text-slate-500">({highRisks.length})</span>
+        {/* Upcoming Milestones */}
+        <div className="bg-white border border-portavia-border rounded p-5">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-base font-semibold text-portavia-dark">
+              Upcoming Milestones
             </h2>
-            <button className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
-              View All
+            <button className="text-sm text-portavia-dark hover:underline">
+              View Timeline
             </button>
           </div>
 
-          <div className="space-y-3">
-            {highRisks.map((risk, index) => (
-              <div key={index} className="p-3 bg-amber-50 border border-amber-100 rounded-lg hover:bg-amber-100 transition-colors cursor-pointer">
-                <div className="flex items-start gap-3">
-                  <AlertCircle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-slate-900">{risk.title}</div>
-                    <div className="text-xs text-slate-600 mt-1">{risk.level} Level</div>
+          <div className="grid grid-cols-2 gap-3">
+            {upcomingMilestones.map((milestone, index) => {
+              const statusConfig = {
+                'on-track': {
+                  bg: 'bg-green-50',
+                  border: 'border-green-200',
+                  dot: 'bg-status-green'
+                },
+                'at-risk': {
+                  bg: 'bg-orange-50',
+                  border: 'border-orange-200',
+                  dot: 'bg-status-orange'
+                },
+                planned: {
+                  bg: 'bg-gray-50',
+                  border: 'border-gray-200',
+                  dot: 'bg-gray-400'
+                }
+              };
+              const config = statusConfig[milestone.status];
+
+              return (
+                <div
+                  key={index}
+                  className={`p-3 ${config.bg} border ${config.border} rounded hover:shadow-sm transition-shadow cursor-pointer`}
+                >
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className={`w-2 h-2 rounded-full ${config.dot}`}></div>
+                    <span className="text-xs font-semibold text-gray-600">
+                      {milestone.date}
+                    </span>
                   </div>
-                  <div className="text-xs font-bold text-amber-600 bg-amber-100 px-2 py-1 rounded">
-                    Score: {risk.score}
+                  <div className="text-sm font-semibold text-portavia-dark mb-1">
+                    {milestone.name}
                   </div>
+                  <div className="text-xs text-gray-600">{milestone.project}</div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-        </div>
-      </div>
-
-      {/* Upcoming Milestones */}
-      <div className="bg-white rounded-xl border border-slate-200 p-6">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-slate-900">Upcoming Milestones</h2>
-          <button className="text-sm text-indigo-600 hover:text-indigo-700 font-medium">
-            View Timeline
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {upcomingMilestones.map((milestone, index) => {
-            const statusColors = {
-              'on-track': 'border-emerald-200 bg-emerald-50',
-              'at-risk': 'border-amber-200 bg-amber-50',
-              'planned': 'border-slate-200 bg-slate-50'
-            };
-
-            const statusDots = {
-              'on-track': 'bg-emerald-500',
-              'at-risk': 'bg-amber-500',
-              'planned': 'bg-slate-400'
-            };
-
-            return (
-              <div key={index} className={`p-4 border rounded-lg ${statusColors[milestone.status]} hover:shadow-md transition-shadow cursor-pointer`}>
-                <div className="flex items-center gap-2 mb-3">
-                  <div className={`w-2 h-2 rounded-full ${statusDots[milestone.status]}`}></div>
-                  <span className="text-xs font-semibold text-slate-600 uppercase">{milestone.date}</span>
-                </div>
-                <div className="text-sm font-semibold text-slate-900 mb-2">{milestone.name}</div>
-                <div className="text-xs text-slate-600">{milestone.project}</div>
-              </div>
-            );
-          })}
         </div>
       </div>
     </AppShell>
