@@ -1,8 +1,9 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { RefreshCw } from 'lucide-react';
-import AppShell from '../../components/AppShell';
 import ProjectSelector from './ProjectSelector';
 import ProjectSummary from './Components/ProjectSummary';
+import ProjectFinancialOverview from './Components/ProjectFinancialOverview';
 
 /**
  * PROJECT DASHBOARD PAGE
@@ -29,17 +30,29 @@ import ProjectSummary from './Components/ProjectSummary';
 
 const ProjectDashboard = () => {
   // ============================================
+  // ROUTE PARAMS
+  // ============================================
+  const { id } = useParams();
+  
+  // ============================================
   // STATE
   // ============================================
   
-  // Currently selected project ID - passed to child components
-  const [selectedProjectId, setSelectedProjectId] = useState(null);
+  // Currently selected project ID - from URL param or selector
+  const [selectedProjectId, setSelectedProjectId] = useState(id || null);
   
   // Refresh state - controls the spinning animation on refresh button
   const [isRefreshing, setIsRefreshing] = useState(false);
   
   // Refresh key - incrementing this forces child components to re-fetch data
   const [refreshKey, setRefreshKey] = useState(0);
+
+  // Update selectedProjectId when URL param changes
+  useEffect(() => {
+    if (id) {
+      setSelectedProjectId(id);
+    }
+  }, [id]);
 
   // ============================================
   // EVENT HANDLERS
@@ -60,7 +73,6 @@ const ProjectDashboard = () => {
     // TODO: In future steps, this will trigger fetching:
     // - Project details (executive summary)
     // - Health status
-    // - EVM metrics
     // - Financial data
     // - Risks & Issues
     // - Milestones
@@ -94,7 +106,7 @@ const ProjectDashboard = () => {
   // ============================================
 
   return (
-    <AppShell breadcrumbs={['Projects', 'Project Dashboard']}>
+    <>
       {/* 
         PAGE HEADER
         Clean, minimal header matching the Portavia design
@@ -178,7 +190,20 @@ const ProjectDashboard = () => {
             The key prop with refreshKey forces a re-render when refresh is clicked
           */}
           <ProjectSummary 
-            key={refreshKey} 
+            key={`summary-${refreshKey}`} 
+            projectId={selectedProjectId} 
+          />
+          
+          {/* 
+            PROJECT FINANCIAL OVERVIEW
+            Shows simple financial metrics:
+            - Budget vs Actual Cost
+            - Cost breakdown by category
+            - Remaining budget
+            - Budget utilization
+          */}
+          <ProjectFinancialOverview 
+            key={`financial-${refreshKey}`} 
             projectId={selectedProjectId} 
           />
           
@@ -186,12 +211,12 @@ const ProjectDashboard = () => {
             PLACEHOLDER FOR ADDITIONAL SECTIONS
             Will be replaced with actual components in future steps
           */}
-          <div className="bg-gray-50 rounded-lg border border-gray-200 border-dashed p-8 text-center">
+          <div className="bg-gray-50 rounded-lg border border-gray-200 border-dashed p-8 text-center mt-6">
             <p className="text-gray-400 text-sm">
               Additional dashboard sections coming soon...
             </p>
             <p className="text-gray-300 text-xs mt-1">
-              Health Status • EVM Metrics • Financials • Risks • Milestones • Timeline
+              Risks & Issues • Timeline • Team Workload
             </p>
           </div>
         </>
@@ -202,7 +227,7 @@ const ProjectDashboard = () => {
           </p>
         </div>
       )}
-    </AppShell>
+    </>
   );
 };
 

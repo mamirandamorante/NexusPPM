@@ -1,17 +1,14 @@
-import ProjectDashboard from './pages/ProjectDashboard/ProjectDashboard';
+import { RouterProvider } from 'react-router-dom';
+import router from './router';
 
 /**
  * APP ROOT COMPONENT
  * 
- * Currently renders the ProjectDashboard as the main view.
- * 
- * TODO: In the future, add React Router for navigation between:
- * - Dashboard (executive overview)
- * - ProjectDashboard (single project view)
- * - Portfolios, Programs, etc.
+ * Sets up React Router for navigation throughout the application.
+ * All routes are defined in router.jsx and wrapped with Layout (AppShell).
  */
 function App() {
-  return <ProjectDashboard />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;

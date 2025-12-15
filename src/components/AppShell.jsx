@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard,
   FolderKanban,
@@ -33,18 +34,27 @@ import AIChat from './AIChat';
 const AppShell = ({ children, breadcrumbs = [] }) => {
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(true);
   const [rightSidebarOpen, setRightSidebarOpen] = useState(false);
+  const location = useLocation();
 
   // Navigation items with icons and badges
   const navItems = [
-    { icon: LayoutDashboard, label: 'Dashboard', path: '/', badge: null, active: true },
+    { icon: LayoutDashboard, label: 'Dashboard', path: '/', badge: null },
     { icon: FolderKanban, label: 'Portfolios', path: '/portfolios', badge: null },
     { icon: Target, label: 'Programs', path: '/programs', badge: null },
-    { icon: Rocket, label: 'Projects', path: '/projects', badge: 3 },
-    { icon: AlertTriangle, label: 'Risks & Issues', path: '/risks', badge: 5 },
+    { icon: Rocket, label: 'Projects', path: '/projects', badge: null },
+    { icon: AlertTriangle, label: 'Risks & Issues', path: '/risks', badge: null },
     { icon: CheckCircle2, label: 'Milestones', path: '/milestones', badge: null },
     { icon: Users, label: 'Resources', path: '/resources', badge: null },
     { icon: BarChart3, label: 'Reports', path: '/reports', badge: null },
   ];
+
+  // Check if a route is active
+  const isActiveRoute = (path) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -120,11 +130,12 @@ const AppShell = ({ children, breadcrumbs = [] }) => {
         <nav className="p-2 space-y-1">
           {navItems.map((item, index) => {
             const Icon = item.icon;
-            const isActive = item.active;
+            const isActive = isActiveRoute(item.path);
 
             return (
-              <button
+              <Link
                 key={item.path}
+                to={item.path}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded transition-all ${
                   isActive
                     ? 'bg-white text-portavia-dark font-medium border border-portavia-border'
@@ -142,7 +153,7 @@ const AppShell = ({ children, breadcrumbs = [] }) => {
                     )}
                   </>
                 )}
-              </button>
+              </Link>
             );
           })}
         </nav>

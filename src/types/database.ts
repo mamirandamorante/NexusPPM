@@ -277,14 +277,7 @@ export type Database = {
             foreignKeyName: "issues_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "vw_project_earned_value"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "issues_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_evm_metrics"
+            referencedRelation: "vw_project_cost_summary"
             referencedColumns: ["project_id"]
           },
           {
@@ -293,13 +286,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vw_project_overview"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "issues_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_planned_value"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "issues_project_id_fkey"
@@ -350,13 +336,11 @@ export type Database = {
           deliverables: string[] | null
           description: string | null
           id: string
-          is_evm_measurement_point: boolean | null
           is_payment_trigger: boolean | null
           name: string
           notes: string | null
           owner_id: string | null
           payment_amount: number | null
-          percent_complete_weight: number | null
           planned_date: string
           predecessor_milestone_id: string | null
           project_id: string
@@ -374,13 +358,11 @@ export type Database = {
           deliverables?: string[] | null
           description?: string | null
           id?: string
-          is_evm_measurement_point?: boolean | null
           is_payment_trigger?: boolean | null
           name: string
           notes?: string | null
           owner_id?: string | null
           payment_amount?: number | null
-          percent_complete_weight?: number | null
           planned_date: string
           predecessor_milestone_id?: string | null
           project_id: string
@@ -398,13 +380,11 @@ export type Database = {
           deliverables?: string[] | null
           description?: string | null
           id?: string
-          is_evm_measurement_point?: boolean | null
           is_payment_trigger?: boolean | null
           name?: string
           notes?: string | null
           owner_id?: string | null
           payment_amount?: number | null
-          percent_complete_weight?: number | null
           planned_date?: string
           predecessor_milestone_id?: string | null
           project_id?: string
@@ -441,13 +421,6 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "milestones_predecessor_milestone_id_fkey"
-            columns: ["predecessor_milestone_id"]
-            isOneToOne: false
-            referencedRelation: "vw_milestone_timeline"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "milestones_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
@@ -472,14 +445,7 @@ export type Database = {
             foreignKeyName: "milestones_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "vw_project_earned_value"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "milestones_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_evm_metrics"
+            referencedRelation: "vw_project_cost_summary"
             referencedColumns: ["project_id"]
           },
           {
@@ -488,13 +454,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vw_project_overview"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "milestones_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_planned_value"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "milestones_project_id_fkey"
@@ -767,6 +726,105 @@ export type Database = {
           },
         ]
       }
+      project_costs: {
+        Row: {
+          amount: number
+          cost_category: string | null
+          cost_date: string
+          cost_type: string
+          created_at: string | null
+          created_by: string | null
+          description: string | null
+          id: string
+          milestone_id: string | null
+          project_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          cost_category?: string | null
+          cost_date?: string
+          cost_type: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          milestone_id?: string | null
+          project_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          cost_category?: string | null
+          cost_date?: string
+          cost_type?: string
+          created_at?: string | null
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          milestone_id?: string | null
+          project_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_costs_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "resources"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_costs_milestone_id_fkey"
+            columns: ["milestone_id"]
+            isOneToOne: false
+            referencedRelation: "milestones"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_costs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_costs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "vw_hierarchy_complete"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "project_costs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "vw_issues_all_levels"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "project_costs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "vw_project_cost_summary"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "project_costs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "vw_project_overview"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_costs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "vw_risks_all_levels"
+            referencedColumns: ["project_id"]
+          },
+        ]
+      }
       project_resources: {
         Row: {
           allocated_hours: number | null
@@ -821,14 +879,7 @@ export type Database = {
             foreignKeyName: "project_resources_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "vw_project_earned_value"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "project_resources_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_evm_metrics"
+            referencedRelation: "vw_project_cost_summary"
             referencedColumns: ["project_id"]
           },
           {
@@ -837,13 +888,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vw_project_overview"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "project_resources_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_planned_value"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "project_resources_project_id_fkey"
@@ -903,6 +947,10 @@ export type Database = {
       projects: {
         Row: {
           actual_cost: number | null
+          actual_cost_infrastructure: number | null
+          actual_cost_labor: number | null
+          actual_cost_materials: number | null
+          actual_cost_other: number | null
           budget: number | null
           business_unit: string | null
           created_at: string | null
@@ -918,6 +966,7 @@ export type Database = {
           progress: number | null
           size: string | null
           spent: number | null
+          sponsor_id: string | null
           start_date: string | null
           state: string | null
           status: string
@@ -925,6 +974,10 @@ export type Database = {
         }
         Insert: {
           actual_cost?: number | null
+          actual_cost_infrastructure?: number | null
+          actual_cost_labor?: number | null
+          actual_cost_materials?: number | null
+          actual_cost_other?: number | null
           budget?: number | null
           business_unit?: string | null
           created_at?: string | null
@@ -940,6 +993,7 @@ export type Database = {
           progress?: number | null
           size?: string | null
           spent?: number | null
+          sponsor_id?: string | null
           start_date?: string | null
           state?: string | null
           status?: string
@@ -947,6 +1001,10 @@ export type Database = {
         }
         Update: {
           actual_cost?: number | null
+          actual_cost_infrastructure?: number | null
+          actual_cost_labor?: number | null
+          actual_cost_materials?: number | null
+          actual_cost_other?: number | null
           budget?: number | null
           business_unit?: string | null
           created_at?: string | null
@@ -962,6 +1020,7 @@ export type Database = {
           progress?: number | null
           size?: string | null
           spent?: number | null
+          sponsor_id?: string | null
           start_date?: string | null
           state?: string | null
           status?: string
@@ -1009,6 +1068,13 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vw_risks_all_levels"
             referencedColumns: ["program_id"]
+          },
+          {
+            foreignKeyName: "projects_sponsor_id_fkey"
+            columns: ["sponsor_id"]
+            isOneToOne: false
+            referencedRelation: "resources"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -1243,14 +1309,7 @@ export type Database = {
             foreignKeyName: "risks_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "vw_project_earned_value"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "risks_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_evm_metrics"
+            referencedRelation: "vw_project_cost_summary"
             referencedColumns: ["project_id"]
           },
           {
@@ -1259,13 +1318,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vw_project_overview"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "risks_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_planned_value"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "risks_project_id_fkey"
@@ -1379,14 +1431,7 @@ export type Database = {
             foreignKeyName: "tasks_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "vw_project_earned_value"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "tasks_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_evm_metrics"
+            referencedRelation: "vw_project_cost_summary"
             referencedColumns: ["project_id"]
           },
           {
@@ -1395,13 +1440,6 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "vw_project_overview"
             referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "tasks_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_planned_value"
-            referencedColumns: ["project_id"]
           },
           {
             foreignKeyName: "tasks_project_id_fkey"
@@ -1504,90 +1542,6 @@ export type Database = {
         }
         Relationships: []
       }
-      vw_milestone_timeline: {
-        Row: {
-          actual_date: string | null
-          approved_at: string | null
-          approved_by_name: string | null
-          baseline_date: string | null
-          baseline_variance_days: number | null
-          deliverables: string[] | null
-          description: string | null
-          id: string | null
-          is_evm_measurement_point: boolean | null
-          is_payment_trigger: boolean | null
-          milestone_name: string | null
-          owner_name: string | null
-          payment_amount: number | null
-          percent_complete_weight: number | null
-          planned_date: string | null
-          predecessor_actual_date: string | null
-          predecessor_milestone_name: string | null
-          project_id: string | null
-          project_name: string | null
-          schedule_variance_days: number | null
-          status: string | null
-          urgency: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "milestones_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "projects"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "milestones_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_hierarchy_complete"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "milestones_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_issues_all_levels"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "milestones_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_earned_value"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "milestones_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_evm_metrics"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "milestones_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_overview"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "milestones_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_project_planned_value"
-            referencedColumns: ["project_id"]
-          },
-          {
-            foreignKeyName: "milestones_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "vw_risks_all_levels"
-            referencedColumns: ["project_id"]
-          },
-        ]
-      }
       vw_portfolio_financials: {
         Row: {
           active_programs: number | null
@@ -1660,44 +1614,23 @@ export type Database = {
           },
         ]
       }
-      vw_project_earned_value: {
+      vw_project_cost_summary: {
         Row: {
-          achieved_milestones: number | null
-          actual_cost: number | null
-          budget_at_completion: number | null
-          earned_value_cost: number | null
-          earned_value_percent: number | null
-          missed_milestones: number | null
+          actual_cost_infrastructure: number | null
+          actual_cost_labor: number | null
+          actual_cost_materials: number | null
+          actual_cost_other: number | null
+          actual_cost_total: number | null
+          cost_infrastructure_from_transactions: number | null
+          cost_labor_from_transactions: number | null
+          cost_materials_from_transactions: number | null
+          cost_other_from_transactions: number | null
+          infrastructure_percent: number | null
+          labor_percent: number | null
+          materials_percent: number | null
+          other_percent: number | null
           project_id: string | null
           project_name: string | null
-          total_milestones: number | null
-        }
-        Relationships: []
-      }
-      vw_project_evm_metrics: {
-        Row: {
-          ac: number | null
-          achieved_milestones: number | null
-          budget_at_completion: number | null
-          cost_health: string | null
-          cost_performance_index_cpi: number | null
-          cost_variance_cv: number | null
-          estimate_at_completion_eac: number | null
-          estimate_to_complete_etc: number | null
-          ev: number | null
-          milestones_behind: number | null
-          milestones_should_be_done: number | null
-          missed_milestones: number | null
-          percent_complete: number | null
-          percent_should_be_complete: number | null
-          project_id: string | null
-          project_name: string | null
-          pv: number | null
-          schedule_health: string | null
-          schedule_performance_index_spi: number | null
-          schedule_variance_sv: number | null
-          total_milestones: number | null
-          variance_at_completion_vac_percent: number | null
         }
         Relationships: []
       }
@@ -1707,12 +1640,16 @@ export type Database = {
           budget: number | null
           budget_variance: number | null
           business_unit: string | null
+          completed_milestones: number | null
           completed_tasks: number | null
+          completion_percent: number | null
           created_at: string | null
           end_date: string | null
           id: string | null
+          in_progress_milestones: number | null
           manager_name: string | null
           name: string | null
+          not_started_milestones: number | null
           open_issues: number | null
           open_risks: number | null
           percent_spent: number | null
@@ -1721,24 +1658,12 @@ export type Database = {
           program: string | null
           progress: number | null
           size: string | null
+          sponsor_name: string | null
           start_date: string | null
           state: string | null
+          total_milestones: number | null
           total_tasks: number | null
           updated_at: string | null
-        }
-        Relationships: []
-      }
-      vw_project_planned_value: {
-        Row: {
-          budget_at_completion: number | null
-          milestones_actually_done: number | null
-          milestones_should_be_done: number | null
-          planned_value_cost: number | null
-          planned_value_percent: number | null
-          project_id: string | null
-          project_name: string | null
-          total_milestones: number | null
-          total_weight: number | null
         }
         Relationships: []
       }
