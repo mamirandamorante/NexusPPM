@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { RefreshCw } from 'lucide-react';
+import { useParams, Link } from 'react-router-dom';
+import { RefreshCw, FolderKanban, Layers, GitBranch, FileText, CheckSquare, Calendar } from 'lucide-react';
 import ProjectSelector from './ProjectSelector';
 import ProjectSummary from './Components/ProjectSummary';
 import ProjectFinancialOverview from './Components/ProjectFinancialOverview';
@@ -184,6 +184,57 @@ const ProjectDashboard = () => {
       */}
       {selectedProjectId ? (
         <>
+          {/* 
+            QUICK NAVIGATION - Agile/PRINCE2 Work Items
+            Quick access to Epics, Features, and other work items
+          */}
+          <div className="mb-6 bg-white border border-gray-200 rounded-lg p-4">
+            <h2 className="text-sm font-semibold text-gray-700 mb-3">Work Items</h2>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to={`/projects/${selectedProjectId}/epics`}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg text-sm font-medium text-blue-700 hover:bg-blue-100 transition"
+              >
+                <FolderKanban className="w-4 h-4" />
+                View Epics
+              </Link>
+              <Link
+                to={`/projects/${selectedProjectId}/features`}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 border border-green-200 rounded-lg text-sm font-medium text-green-700 hover:bg-green-100 transition"
+              >
+                <Layers className="w-4 h-4" />
+                View Features
+              </Link>
+              <Link
+                to={`/projects/${selectedProjectId}/user-stories`}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 border border-purple-200 rounded-lg text-sm font-medium text-purple-700 hover:bg-purple-100 transition"
+              >
+                <FileText className="w-4 h-4" />
+                View User Stories
+              </Link>
+              <Link
+                to={`/projects/${selectedProjectId}/tasks`}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-orange-50 border border-orange-200 rounded-lg text-sm font-medium text-orange-700 hover:bg-orange-100 transition"
+              >
+                <CheckSquare className="w-4 h-4" />
+                View Tasks
+              </Link>
+              <Link
+                to={`/projects/${selectedProjectId}/sprints`}
+                className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 border border-indigo-200 rounded-lg text-sm font-medium text-indigo-700 hover:bg-indigo-100 transition"
+              >
+                <Calendar className="w-4 h-4" />
+                View Sprints
+              </Link>
+              <div className="ml-auto flex items-center gap-2 text-xs text-gray-500">
+                <span>Project ID:</span>
+                <code className="px-2 py-1 bg-gray-100 rounded text-gray-700 font-mono">
+                  {selectedProjectId.substring(0, 8)}...
+                </code>
+              </div>
+            </div>
+          </div>
+
           {/* 
             PROJECT SUMMARY CARD
             Shows key project info: name, PM, sponsor, dates, completion %, status

@@ -13,6 +13,19 @@ import TimesheetList from './pages/Timesheets/TimesheetList';
 import Reports from './pages/Reports/Reports';
 import RisksIssues from './pages/RisksIssues/RisksIssues';
 import Milestones from './pages/Milestones/Milestones';
+import EpicList from './pages/Projects/WorkItems/EpicList';
+import EpicDetail from './pages/Projects/WorkItems/EpicDetail';
+import FeatureList from './pages/Projects/WorkItems/FeatureList';
+import FeatureDetail from './pages/Projects/WorkItems/FeatureDetail';
+import UserStoryList from './pages/Projects/WorkItems/UserStoryList';
+import UserStoryDetail from './pages/Projects/WorkItems/UserStoryDetail';
+import TaskList from './pages/Projects/WorkItems/TaskList';
+import TaskDetail from './pages/Projects/WorkItems/TaskDetail';
+import SprintList from './pages/Projects/Sprints/SprintList';
+import SprintDetail from './pages/Projects/Sprints/SprintDetail';
+import SprintBoard from './pages/Projects/Sprints/SprintBoard';
+import SprintRetrospective from './pages/Projects/Sprints/SprintRetrospective';
+import SprintVelocity from './pages/Projects/Sprints/SprintVelocity';
 
 /**
  * ROUTER CONFIGURATION
@@ -36,6 +49,70 @@ const router = createBrowserRouter([
       {
         path: '/projects/:id',
         element: <ProjectDashboard />,
+      },
+      {
+        path: '/projects/:id/epics',
+        element: <EpicList />,
+      },
+      {
+        path: '/projects/:id/epics/:epicId',
+        element: <EpicDetail />,
+      },
+      {
+        path: '/projects/:id/features',
+        element: <FeatureList />,
+      },
+      {
+        path: '/projects/:id/epics/:epicId/features',
+        element: <FeatureList />,
+      },
+      {
+        path: '/projects/:id/features/:featureId',
+        element: <FeatureDetail />,
+      },
+      {
+        path: '/projects/:id/user-stories',
+        element: <UserStoryList />,
+      },
+      {
+        path: '/projects/:id/features/:featureId/user-stories',
+        element: <UserStoryList />,
+      },
+      {
+        path: '/projects/:id/user-stories/:userStoryId',
+        element: <UserStoryDetail />,
+      },
+      {
+        path: '/projects/:id/tasks',
+        element: <TaskList />,
+      },
+      {
+        path: '/projects/:id/user-stories/:userStoryId/tasks',
+        element: <TaskList />,
+      },
+      {
+        path: '/projects/:id/tasks/:taskId',
+        element: <TaskDetail />,
+      },
+      {
+        path: '/projects/:id/sprints',
+        element: <SprintList />,
+      },
+      {
+        path: '/projects/:id/sprints/:sprintId',
+        element: <SprintDetail />,
+      },
+      {
+        path: '/projects/:id/sprints/:sprintId/board',
+        element: <SprintBoard />,
+      },
+      {
+        path: '/projects/:id/sprints/:sprintId/retrospective',
+        element: <SprintRetrospective />,
+      },
+      {
+        path: '/projects/:id/sprints/:sprintId/velocity',
+        element: <SprintVelocity />,
       },
       {
         path: '/portfolios',
